@@ -20,7 +20,7 @@ public class CoreEntitiesFactory : ICoreEntitiesCreator
     }
 
     public Operation CreateOperation(OperationType type, BankAccount account, decimal amount, DateTime date, string description,
-        Category category)
+        Category? category)
     {
         ArgumentNullException.ThrowIfNull(account);
 

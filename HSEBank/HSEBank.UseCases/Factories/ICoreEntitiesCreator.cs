@@ -10,6 +10,6 @@ public interface ICoreEntitiesCreator
         decimal amount,
         DateTime date,
         string description,
-        Category category);
+        Category? category);
     Category CreateCategory(OperationType type, string name);
 }
