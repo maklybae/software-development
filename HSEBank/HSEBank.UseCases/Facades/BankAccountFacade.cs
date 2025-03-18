@@ -66,7 +66,7 @@ public class BankAccountFacade
         _accountsRepository.Update(account);
     }
     
-    public void DeleteAccount(Guid id)
+    public void Delete(Guid id)
     {
         _accountsRepository.Delete(id);
     }

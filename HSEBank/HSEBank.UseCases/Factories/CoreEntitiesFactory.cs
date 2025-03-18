@@ -34,11 +34,6 @@ public class CoreEntitiesFactory : ICoreEntitiesCreator
             throw new ArgumentException("Date cannot be default", nameof(date));
         }
     
-        if (string.IsNullOrEmpty(description))
-        {
-            throw new ArgumentException("Description cannot be null or empty", nameof(description));
-        }
-    
         return new Operation(type, account, amount, date, description, category);
     }
 

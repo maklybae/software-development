@@ -2,11 +2,25 @@ namespace HSEBank.Entities.Core;
 
 public class Category : IIdentifiable
 {
+    private string _name;
+    
     public Guid Id { get; private set; }
     
-    public OperationType Type { get; private set; }
+    // Immutable Type to maintain Category/Type invariant in Operation.
+    public OperationType Type { get; private init; }
 
-    public string Name { get; private set; }
+    public string Name {
+        get => _name;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentException("Name cannot be null or empty.");
+            }
+
+            _name = value;
+        }
+    }
     
     public Category(OperationType type, string name)
     {

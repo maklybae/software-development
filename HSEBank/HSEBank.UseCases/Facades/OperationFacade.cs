@@ -95,7 +95,7 @@ public class OperationFacade
         _operationsRepository.Update(operation);
     }
     
-    public void DeleteOperation(Guid id)
+    public void Delete(Guid id)
     {
         _operationsRepository.Delete(id);
     }
