@@ -4,7 +4,7 @@ using HSEBank.UseCases.Repository;
 
 namespace HSEBank.UseCases.Facades;
 
-public class OperationFacade
+public class OperationFacade : IOperationFacade
 {
     private readonly IOperationsRepository _operationsRepository;
     private readonly IAccountsRepository _accountRepository;
