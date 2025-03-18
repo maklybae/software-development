@@ -15,4 +15,20 @@ public class Operation : IIdentifiable
     public string Description { get; private set; } 
     
     public Category Category { get; private set; }   
+    
+    public Operation(OperationType type,
+        BankAccount bankAccount,
+        decimal amount,
+        DateTime date,
+        string description,
+        Category category)
+    {
+        Type = type;
+        BankAccount = bankAccount;
+        Amount = amount;
+        Date = date;
+        Description = description;
+        Category = category;
+        Id = Guid.NewGuid();
+    }
 }

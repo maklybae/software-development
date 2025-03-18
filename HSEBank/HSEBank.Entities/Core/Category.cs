@@ -7,4 +7,11 @@ public class Category : IIdentifiable
     public OperationType Type { get; private set; }
 
     public string Name { get; private set; }
+    
+    public Category(OperationType type, string name)
+    {
+        Type = type;
+        Name = name;
+        Id = Guid.NewGuid();
+    }
 }
