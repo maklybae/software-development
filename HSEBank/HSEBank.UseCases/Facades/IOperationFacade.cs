@@ -8,6 +8,7 @@ public interface IOperationFacade
         string description,
         Guid? categoryId);
     Operation GetById(Guid id);
+    IEnumerable<Operation> GetByAccountId(Guid accountId);
     IEnumerable<Operation> GetAll();
     void UpdateAccountByIds(Guid operationId, Guid accountId);
     void UpdateAmountById(Guid id, decimal amount);
