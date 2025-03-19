@@ -6,7 +6,7 @@ public interface IOperationFacade
 {
     Operation CreatePostOperationByIds(OperationType type, Guid accountId, decimal amount, DateTime date,
         string description,
-        Guid categoryId);
+        Guid? categoryId);
     Operation GetById(Guid id);
     IEnumerable<Operation> GetAll();
     void UpdateAccountByIds(Guid operationId, Guid accountId);

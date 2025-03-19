@@ -22,12 +22,17 @@ public class OperationFacade : IOperationFacade, IOperationsGetter
 
     public Operation CreatePostOperationByIds(OperationType type, Guid accountId, decimal amount, DateTime date,
         string description,
-        Guid categoryId)
+        Guid? categoryId)
     {
         var account = _accountRepository.GetById(accountId) ??
                       throw new InvalidOperationException($"Account with id {accountId} was not found");
-        var category = _categoriesRepository.GetById(categoryId) ??
-                       throw new InvalidOperationException($"Category with id {categoryId} was not found");
+        
+        Category? category = null;
+        if (categoryId.HasValue)
+        {
+            category = _categoriesRepository.GetById(categoryId.Value) ??
+                       throw new InvalidOperationException($"Category with id {categoryId.Value} was not found");
+        }
         
         var operation = _factory.CreateOperation(type, account, amount, date, description, category);
         _operationsRepository.Add(operation);
