@@ -2,7 +2,7 @@ using HSEBank.Entities.Visitors;
 
 namespace HSEBank.Entities.Core;
 
-public class Category : IIdentifiable, ICoreEntityVisitable
+public class Category : ICoreEntity
 {
     private string _name;
     

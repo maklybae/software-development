@@ -2,7 +2,7 @@ using HSEBank.Entities.Visitors;
 
 namespace HSEBank.Entities.Core;
 
-public class Operation : IIdentifiable, ICoreEntityVisitable
+public class Operation : ICoreEntity
 {
     private BankAccount _bankAccount;
     private decimal _amount;
