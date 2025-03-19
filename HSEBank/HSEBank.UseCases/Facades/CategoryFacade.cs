@@ -1,10 +1,11 @@
 using HSEBank.Entities.Core;
+using HSEBank.UseCases.DataSources;
 using HSEBank.UseCases.Factories;
 using HSEBank.UseCases.Repository;
 
 namespace HSEBank.UseCases.Facades;
 
-public class CategoryFacade : ICategoryFacade
+public class CategoryFacade : ICategoryFacade, ICategoriesGetter
 {
     private readonly ICategoriesRepository _categoriesRepository;
     private readonly ICoreEntitiesCreator _builder;

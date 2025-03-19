@@ -1,10 +1,11 @@
 using HSEBank.Entities.Core;
+using HSEBank.UseCases.DataSources;
 using HSEBank.UseCases.Factories;
 using HSEBank.UseCases.Repository;
 
 namespace HSEBank.UseCases.Facades;
 
-public class OperationFacade : IOperationFacade
+public class OperationFacade : IOperationFacade, IOperationsGetter
 {
     private readonly IOperationsRepository _operationsRepository;
     private readonly IAccountsRepository _accountRepository;

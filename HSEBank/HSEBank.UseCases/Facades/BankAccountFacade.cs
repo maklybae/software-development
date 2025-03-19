@@ -1,10 +1,11 @@
 using HSEBank.Entities.Core;
+using HSEBank.UseCases.DataSources;
 using HSEBank.UseCases.Factories;
 using HSEBank.UseCases.Repository;
 
 namespace HSEBank.UseCases.Facades;
 
-public class BankAccountFacade : IBankAccountFacade
+public class BankAccountFacade : IBankAccountFacade, IBankAccountsGetter
 {
     private readonly IAccountsRepository _accountsRepository;
     private readonly ICoreEntitiesCreator _factory; 

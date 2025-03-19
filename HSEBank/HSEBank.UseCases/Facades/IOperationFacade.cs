@@ -16,5 +16,4 @@ public interface IOperationFacade
     void UpdateDescriptionById(Guid id, string description);
     void UpdateDateById(Guid id, DateTime date);
     void Delete(Guid id);
-    
 }
