@@ -4,7 +4,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace HSEBank.Infrastructure.Repositories.Cached;
 
-public class CachedCategoriesRepository(IMemoryCache cache, ICategoriesRepository repository) : ICategoriesRepository
+public class CachedCategoriesRepository(ICategoriesRepository repository, IMemoryCache cache) : ICategoriesRepository
 {
     private const string CacheAllKey = "AllCategories";
     private const string CacheKeyPrefix = "Category:";

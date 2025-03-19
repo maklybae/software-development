@@ -7,7 +7,7 @@ namespace HSEBank.UseCases.Export;
 public class CoreEntitiesAggregator(
     IBankAccountsGetter accountsGetter,
     ICategoriesGetter categoriesGetter,
-    IOperationsGetter operationsGetter)
+    IOperationsGetter operationsGetter) : ICoreEntitiesAggregator
 {
     public IEnumerable<ICoreEntity> GetAll()
     {

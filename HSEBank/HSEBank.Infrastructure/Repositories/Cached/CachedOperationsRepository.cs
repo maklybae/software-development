@@ -5,7 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace HSEBank.Infrastructure.Repositories.Cached;
 
-public class CachedOperationsRepository(IMemoryCache cache, IOperationsRepository repository) : IOperationsRepository
+public class CachedOperationsRepository(IOperationsRepository repository, IMemoryCache cache) : IOperationsRepository
 {
     private const string CacheAllKey = "AllOperations";
     private const string CacheKeyPrefix = "Operation:";
