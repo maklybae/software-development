@@ -1,6 +1,8 @@
+using HSEBank.Entities.Visitors;
+
 namespace HSEBank.Entities.Core;
 
-public class Category : IIdentifiable
+public class Category : IIdentifiable, ICoreEntityVisitable
 {
     private string _name;
     
@@ -27,5 +29,10 @@ public class Category : IIdentifiable
         Type = type;
         Name = name;
         Id = Guid.NewGuid();
+    }
+
+    public void Accept(ICoreEntityVisitor visitor)
+    {
+        visitor.Visit(this);
     }
 }

@@ -1,6 +1,8 @@
+using HSEBank.Entities.Visitors;
+
 namespace HSEBank.Entities.Core;
 
-public class Operation : IIdentifiable
+public class Operation : IIdentifiable, ICoreEntityVisitable
 {
     private BankAccount _bankAccount;
     private decimal _amount;
@@ -76,5 +78,10 @@ public class Operation : IIdentifiable
         Description = description;
         Category = category;
         Id = Guid.NewGuid();
+    }
+
+    public void Accept(ICoreEntityVisitor visitor)
+    {
+        visitor.Visit(this);
     }
 }

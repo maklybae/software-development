@@ -1,6 +1,8 @@
+using HSEBank.Entities.Visitors;
+
 namespace HSEBank.Entities.Core;
 
-public class BankAccount : IIdentifiable
+public class BankAccount : IIdentifiable, ICoreEntityVisitable
 {
     private string _name;
     private decimal _balance;
@@ -52,5 +54,10 @@ public class BankAccount : IIdentifiable
     {
         // Validation in the setter
         Balance -= amount;
+    }
+
+    public void Accept(ICoreEntityVisitor visitor)
+    {
+        visitor.Visit(this);
     }
 }
