@@ -2,8 +2,15 @@ using HSEBank.UseCases.DataSources;
 
 namespace HSEBank.UseCases.Export;
 
-public abstract class Exporter(ICoreEntitiesAggregator aggregator)
+public abstract class Exporter
 {
+    protected readonly ICoreEntitiesAggregator _aggregator;
+    
+    protected Exporter(ICoreEntitiesAggregator aggregator)
+    {
+        _aggregator = aggregator;
+    }
+    
     public void Export(string path)
     {
         FormatData();

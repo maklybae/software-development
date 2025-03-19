@@ -1,6 +1,6 @@
 namespace HSEBank.Infrastructure.Dto;
 
-public class BankAccountDto
+public struct BankAccountDto
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
