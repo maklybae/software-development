@@ -60,12 +60,16 @@ public class ConsoleApplication
                 ShowBankAccounts();
                 break;
             case MenuAction.AddOperation:
+                AddOperation();
                 break;
             case MenuAction.ShowOperations:
+                ShowOperations();
                 break;
             case MenuAction.AddCategory:
+                AddCategory();
                 break;
             case MenuAction.ShowCategories:
+                ShowCategories();
                 break;
             case MenuAction.DifferenceForAccount:
                 break;
@@ -111,6 +115,71 @@ public class ConsoleApplication
         AnsiConsole.Write(table);
     }
 
+    private void ShowOperations()
+    {
+        var table = new Table();
+        table.AddColumn("Id");
+        table.AddColumn("Type");
+        table.AddColumn("BankAccountId");
+        table.AddColumn("Amount");
+        table.AddColumn("Date");
+        table.AddColumn("Description");
+        table.AddColumn("CategoryId");
+
+        IEnumerable<Operation> operations;
+        try
+        {
+            operations = _operationFacade.GetAll();
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e);
+            return;
+        }
+        
+        foreach (var operation in operations)
+        {
+            table.AddRow(
+                new Text(operation.Id.ToString()),
+                new Text(operation.Type == OperationType.Expense ? "Expense" : "Income"),
+                new Text(operation.BankAccount.Id.ToString()),
+                new Text(operation.Amount.ToString(CultureInfo.InvariantCulture)),
+                new Text(operation.Date.ToString(CultureInfo.InvariantCulture)),
+                string.IsNullOrEmpty(operation.Description)
+                    ? new Markup("No description")
+                    : new Markup(operation.Description));
+        }
+        AnsiConsole.Write(table);
+    }
+    
+    private void ShowCategories()
+    {
+        var table = new Table();
+        table.AddColumn("Id");
+        table.AddColumn("Name");
+        table.AddColumn("OperationType");
+
+        IEnumerable<Category> categories;
+        try
+        {
+            categories = _categoryFacade.GetAll();
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e);
+            return;
+        }
+        
+        foreach (var category in categories)
+        {
+            table.AddRow(
+                new Text(category.Id.ToString()),
+                new Text(category.Name),
+                category.Type == OperationType.Income ? new Markup("[green]Income[/]") : new Markup("[red]Expense[/]"));
+        }
+        AnsiConsole.Write(table);
+    }
+
     private void AddBankAccount()
     {
         var name = AnsiConsole.Ask<string>("Enter [green]name[/]:");
@@ -132,39 +201,57 @@ public class ConsoleApplication
         }
     }
     
-    // private void AddOperation()
-    // {
-    //     var bankAccountName = AnsiConsole.Ask<string>("Enter [green]bank account name[/]:");
-    //     var categoryName = AnsiConsole.Ask<string>("Enter [green]category name[/]:");
-    //     var amount = AnsiConsole.Ask<decimal>("Enter [green]amount[/]:");
-    //     var operationType = AnsiConsole.Prompt(
-    //         new SelectionPrompt<OperationType>()
-    //             .Title("Select [green]operation type[/]")
-    //             .AddChoices(new[]
-    //             {
-    //                 OperationType.Income, OperationType.Expense
-    //             }));
-    //     
-    //     var command = CompositionRoot.CreateOperationCommand;
-    //     command.Create(bankAccountName, categoryName, amount, operationType);
-    //     var timingCommand = new TimingCommand(command);
-    //
-    //     try
-    //     {
-    //         timingCommand.Execute();
-    //         AnsiConsole.MarkupLine("[green]Operation created successfully![/]");
-    //         AnsiConsole.MarkupLine($"[green]Execution time: {timingCommand.Duraion}[/]");
-    //     }
-    //     catch (Exception e)
-    //     {
-    //         AnsiConsole.WriteException(e);
-    //     }
-    // }
+    private void AddOperation()
+    {
+        var operationType = AskOperationType();
+        var bankAccountId = AnsiConsole.Ask<Guid>("Enter [green]bankAccountId[/]:");
+        var amount = AnsiConsole.Ask<decimal>("Enter [green]amount[/]:");
+        var date = AnsiConsole.Ask<DateTime>("Enter [green]date[/]:");
+        var description = AskDescription();
+        var categoryId = AskNullableCategory();
+        
+        var command = CompositionRoot.CreateOperationCommand;
+        command.Create(operationType, bankAccountId, amount, date, description, categoryId);
+        var timingCommand = new TimingCommand(command);
+        
+        try
+        {
+            timingCommand.Execute();
+            AnsiConsole.MarkupLine("[green]Operation created successfully![/]");
+            AnsiConsole.MarkupLine($"[green]Execution time: {timingCommand.Duraion}[/]");
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e);
+        }
+    }
+    
+    private void AddCategory()
+    {
+        var name = AnsiConsole.Ask<string>("Enter [green]name[/]:");
+        var operationType = AskOperationType();
+            
+        var command = CompositionRoot.CreateCategoryCommand;
+        command.Create(name, operationType);
+        var timingCommand = new TimingCommand(command);
+        
+        try
+        {
+            timingCommand.Execute();
+            AnsiConsole.MarkupLine("[green]Category created successfully![/]");
+            AnsiConsole.MarkupLine($"[green]Execution time: {timingCommand.Duraion}[/]");
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e);
+        }
+    }
 
     private static string AskAction()
     {
         var action = AnsiConsole.Prompt(
             new SelectionPrompt<string>()
+                .EnableSearch()
                 .PageSize(8)
                 .Title("Select [green]action[/]?")
                 .MoreChoicesText("[grey](Move up and down to reveal more actions)[/]")
@@ -191,6 +278,62 @@ public class ConsoleApplication
         
         return action;
     }
-    
+
+    private OperationType AskOperationType()
+    {
+        var strChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .EnableSearch()
+                .Title("Select [green]operation type[/]?")
+                .AddChoices(new []
+                {
+                    "Income", "Expense"
+                }));
+        
+        AnsiConsole.MarkupLine("[yellow]{0}[/]", strChoice);
+        return strChoice switch {
+            "Income" => OperationType.Income,
+            "Expense" => OperationType.Expense,
+            _ => throw new ArgumentException("Invalid operation type")
+        };
+    }
+
+    private string AskDescription()
+    {
+        var strChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .EnableSearch()
+                .Title("Add [green]description[/]?")
+                .AddChoices(new []
+                {
+                    "Yes", "No"
+                }));
+        
+        if (strChoice == "No")
+        {
+            return "";
+        }
+        
+        return AnsiConsole.Ask<string>("Enter [green]description[/]:");
+    }
+
+    private Guid? AskNullableCategory()
+    {
+        var strChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .EnableSearch()
+                .Title("Add [green]category[/]?")
+                .AddChoices(new []
+                {
+                    "Yes", "No"
+                }));
+        
+        if (strChoice == "No")
+        {
+            return null;
+        }
+        
+        return AnsiConsole.Ask<Guid?>("Enter [green]categoryId[/]:");
+    }
     
 }
