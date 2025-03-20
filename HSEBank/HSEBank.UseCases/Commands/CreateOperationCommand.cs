@@ -12,6 +12,7 @@ public class CreateOperationCommand : ICommand
     private DateTime _date;
     private string _description;
     private Guid? _categoryId;
+    private bool _isCreated = false;
     
     public CreateOperationCommand(IOperationFacade operationFacade)
     {
@@ -20,6 +21,7 @@ public class CreateOperationCommand : ICommand
 
     public void Create(OperationType operationType, Guid bankAccountId, decimal amount, DateTime date, string description, Guid? categoryId)
     {
+        _isCreated = true;
         _operationType = operationType;
         _bankAccountId = bankAccountId;
         _amount = amount;
@@ -30,6 +32,10 @@ public class CreateOperationCommand : ICommand
     
     public void Execute()
     {
+        if (!_isCreated)
+        {
+            throw new InvalidOperationException("Command is not created");
+        }
         _operationFacade.CreatePostByIds(_operationType, _bankAccountId, _amount, _date, _description, _categoryId);
     }
     
