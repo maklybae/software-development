@@ -30,7 +30,7 @@ public class CreateOperationCommand : ICommand
     
     public void Execute()
     {
-        _operationFacade.CreatePostOperationByIds(_operationType, _bankAccountId, _amount, _date, _description, _categoryId);
+        _operationFacade.CreatePostByIds(_operationType, _bankAccountId, _amount, _date, _description, _categoryId);
     }
     
 }

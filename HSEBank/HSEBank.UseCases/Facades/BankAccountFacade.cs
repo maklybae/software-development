@@ -16,9 +16,16 @@ public class BankAccountFacade : IBankAccountFacade
         _factory = factory ?? throw new ArgumentNullException(nameof(factory));
     }
     
-    public BankAccount CreatePostAccount(string name, decimal balance)
+    public BankAccount CreatePost(string name, decimal balance)
     {
         var account = _factory.CreateBankAccount(name, balance);
+        _accountsRepository.Add(account);
+        return account;
+    }
+
+    public BankAccount CreatePost(Guid id, string name, decimal balance)
+    {
+        var account = _factory.CreateBankAccount(id, name, balance);
         _accountsRepository.Add(account);
         return account;
     }

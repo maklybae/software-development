@@ -22,6 +22,6 @@ public class CreateCategoryCommand : ICommand
     
     public void Execute()
     {
-        _categoryFacade.CreatePostCategory(_name, _type);
+        _categoryFacade.CreatePost(_name, _type);
     }
 }

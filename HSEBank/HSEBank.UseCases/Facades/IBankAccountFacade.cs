@@ -5,7 +5,8 @@ namespace HSEBank.UseCases.Facades;
 
 public interface IBankAccountFacade : IBankAccountsGetter
 {
-    BankAccount CreatePostAccount(string name, decimal balance);
+    BankAccount CreatePost(string name, decimal balance);
+    BankAccount CreatePost(Guid id, string name, decimal balance);
     BankAccount GetById(Guid id);
     BankAccount GetUniqueByName(string name);
     void UpdateNameById(Guid id, string name);

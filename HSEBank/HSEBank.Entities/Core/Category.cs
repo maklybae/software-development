@@ -24,6 +24,14 @@ public class Category : ICoreEntity
         }
     }
     
+    public Category(Guid id, OperationType type, string name)
+    {
+        Id = id;
+        Type = type;
+        Name = name;
+    }
+
+    
     public Category(OperationType type, string name)
     {
         Type = type;

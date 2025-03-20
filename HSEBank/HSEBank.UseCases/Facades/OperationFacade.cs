@@ -20,7 +20,7 @@ public class OperationFacade : IOperationFacade
         _categoriesRepository = categoriesRepository ?? throw new ArgumentNullException(nameof(categoriesRepository));
     }
 
-    public Operation CreatePostOperationByIds(OperationType type, Guid accountId, decimal amount, DateTime date,
+    public Operation CreatePostByIds(OperationType type, Guid accountId, decimal amount, DateTime date,
         string description,
         Guid? categoryId)
     {
@@ -35,6 +35,25 @@ public class OperationFacade : IOperationFacade
         }
         
         var operation = _factory.CreateOperation(type, account, amount, date, description, category);
+        _operationsRepository.Add(operation);
+        return operation;
+    }
+    
+    public Operation CreatePostByIds(Guid id, OperationType type, Guid accountId, decimal amount, DateTime date,
+        string description,
+        Guid? categoryId)
+    {
+        var account = _accountRepository.GetById(accountId) ??
+                      throw new InvalidOperationException($"Account with id {accountId} was not found");
+        
+        Category? category = null;
+        if (categoryId.HasValue)
+        {
+            category = _categoriesRepository.GetById(categoryId.Value) ??
+                       throw new InvalidOperationException($"Category with id {categoryId.Value} was not found");
+        }
+        
+        var operation = _factory.CreateOperation(id, type, account, amount, date, description, category);
         _operationsRepository.Add(operation);
         return operation;
     }

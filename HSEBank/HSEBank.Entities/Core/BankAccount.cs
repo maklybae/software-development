@@ -36,6 +36,13 @@ public class BankAccount : ICoreEntity
             _balance = value;
         }
     }
+
+    public BankAccount(Guid id, string name, decimal balance)
+    {
+        Id = id;
+        Name = name;
+        Balance = balance;
+    }
     
     public BankAccount(string name, decimal balance)
     {

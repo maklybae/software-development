@@ -11,7 +11,7 @@ class Program
         // var memoryCache = new MemoryCache();
         CompositionRoot.Services.GetRequiredService<ICategoryFacade>().GetAll();
         var consoleApp = new ConsoleApplication(CompositionRoot.CategoryFacade, CompositionRoot.BankAccountFacade,
-            CompositionRoot.OperationFacade, CompositionRoot.AnalyticsService);
+            CompositionRoot.OperationFacade, CompositionRoot.AnalyticsService, CompositionRoot.Importer);
         consoleApp.Run();
     }
 }

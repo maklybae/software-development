@@ -5,7 +5,10 @@ namespace HSEBank.UseCases.Facades;
 
 public interface IOperationFacade : IOperationsGetter
 {
-    Operation CreatePostOperationByIds(OperationType type, Guid accountId, decimal amount, DateTime date,
+    Operation CreatePostByIds(OperationType type, Guid accountId, decimal amount, DateTime date,
+        string description,
+        Guid? categoryId);
+    Operation CreatePostByIds(Guid id, OperationType type, Guid accountId, decimal amount, DateTime date,
         string description,
         Guid? categoryId);
     Operation GetById(Guid id);

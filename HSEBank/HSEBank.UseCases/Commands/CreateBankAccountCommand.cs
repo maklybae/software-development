@@ -21,6 +21,6 @@ public class CreateBankAccountCommand : ICommand
     
     public void Execute()
     {
-        _bankAccountFacade.CreatePostAccount(_name, _balance);
+        _bankAccountFacade.CreatePost(_name, _balance);
     }
 }

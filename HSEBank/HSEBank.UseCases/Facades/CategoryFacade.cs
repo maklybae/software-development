@@ -16,9 +16,16 @@ public class CategoryFacade : ICategoryFacade
         _builder = builder;
     }
     
-    public Category CreatePostCategory(string name, OperationType operationType)
+    public Category CreatePost(string name, OperationType operationType)
     {
         var category = _builder.CreateCategory(operationType, name);
+        _categoriesRepository.Add(category);
+        return category;
+    }   
+    
+    public Category CreatePost(Guid id, string name, OperationType operationType)
+    {
+        var category = _builder.CreateCategory(id, operationType, name);
         _categoriesRepository.Add(category);
         return category;
     }

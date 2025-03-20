@@ -1,3 +1,4 @@
+using HSEBank.Infrastructure;
 using HSEBank.Infrastructure.Export;
 using HSEBank.Infrastructure.Repositories.Cached;
 using HSEBank.Infrastructure.Repositories.InMemory;
@@ -7,6 +8,7 @@ using HSEBank.UseCases.DataSources;
 using HSEBank.UseCases.Export;
 using HSEBank.UseCases.Facades;
 using HSEBank.UseCases.Factories;
+using HSEBank.UseCases.Import;
 using HSEBank.UseCases.Repository;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,6 +50,7 @@ public static class CompositionRoot
         services.AddSingleton<IOperationsGetter>(provider => provider.GetRequiredService<IOperationFacade>());
 
         services.AddSingleton<IAnalyticsService, AnalyticsService>();
+        services.AddSingleton<IImporter, Importer>();
         
         services.AddSingleton<ICoreEntitiesAggregator, CoreEntitiesAggregator>();
         
@@ -68,6 +71,8 @@ public static class CompositionRoot
     public static IOperationFacade OperationFacade => Services.GetRequiredService<IOperationFacade>();
     
     public static IAnalyticsService AnalyticsService => Services.GetRequiredService<IAnalyticsService>();
+    
+    public static IImporter Importer => Services.GetRequiredService<IImporter>();
     
     public static JsonExporter JsonExporter => Services.GetRequiredService<JsonExporter>();
     

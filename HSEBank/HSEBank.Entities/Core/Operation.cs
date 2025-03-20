@@ -64,6 +64,23 @@ public class Operation : ICoreEntity
         }
     }
 
+    public Operation(Guid id,
+        OperationType type,
+        BankAccount bankAccount,
+        decimal amount,
+        DateTime date,
+        string description = "",
+        Category? category = null)
+    {
+        Id = id;
+        Type = type;
+        BankAccount = bankAccount;
+        Amount = amount;
+        Date = date;
+        Description = description;
+        Category = category;
+    }
+    
     public Operation(OperationType type,
         BankAccount bankAccount,
         decimal amount,

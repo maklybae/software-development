@@ -25,7 +25,7 @@ public sealed class YamlExporter : Exporter, ICoreEntityVisitor
     {
         YamlDotNet.Serialization.Serializer serializer = new YamlDotNet.Serialization.Serializer();
         var writer = new StreamWriter(stream);
-        serializer.Serialize(writer, new
+        serializer.Serialize(writer, new BankDto
         {
             BankAccounts = _bankAccounts,
             Categories = _categories,
@@ -62,6 +62,7 @@ public sealed class YamlExporter : Exporter, ICoreEntityVisitor
         _operations.Add(new OperationDto
         {
             Id = operation.Id,
+            Type = operation.Type,
             Amount = operation.Amount,
             Date = operation.Date,
             Description = operation.Description,

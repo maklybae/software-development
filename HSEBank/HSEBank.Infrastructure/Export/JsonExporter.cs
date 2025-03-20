@@ -24,7 +24,7 @@ public sealed class JsonExporter : Exporter, ICoreEntityVisitor
 
     protected override void Write(Stream stream)
     {
-        JsonSerializer.SerializeAsync(stream, new
+        JsonSerializer.SerializeAsync(stream, new BankDto
         {
             BankAccounts = _bankAccounts,
             Categories = _categories,
@@ -60,6 +60,7 @@ public sealed class JsonExporter : Exporter, ICoreEntityVisitor
         _operations.Add(new OperationDto
         {
             Id = operation.Id,
+            Type = operation.Type,
             Amount = operation.Amount,
             Date = operation.Date,
             Description = operation.Description,

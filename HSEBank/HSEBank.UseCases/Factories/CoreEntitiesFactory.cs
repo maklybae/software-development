@@ -13,15 +13,31 @@ public class CoreEntitiesFactory : ICoreEntitiesCreator
     {
         return new BankAccount(name, balance);
     }
+    
+    public BankAccount CreateBankAccount(Guid id, string name, decimal balance = decimal.Zero)
+    {
+        return new BankAccount(id, name, balance);
+    }
 
     public Operation CreateOperation(OperationType type, BankAccount account, decimal amount, DateTime date, string description,
         Category? category)
     {
         return new Operation(type, account, amount, date, description, category);
+    }   
+    
+    public Operation CreateOperation(Guid id, OperationType type, BankAccount account, decimal amount, DateTime date, string description,
+        Category? category)
+    {
+        return new Operation(id, type, account, amount, date, description, category);
     }
 
     public Category CreateCategory(OperationType type, string name)
     { 
         return new Category(type, name);
+    }
+    
+    public Category CreateCategory(Guid id, OperationType type, string name)
+    { 
+        return new Category(id, type, name);
     }
 }

@@ -3,6 +3,7 @@ using HSEBank.Entities.Core;
 using HSEBank.UseCases.Analytics;
 using HSEBank.UseCases.Commands;
 using HSEBank.UseCases.Facades;
+using HSEBank.UseCases.Import;
 using Spectre.Console;
 
 namespace HSEBank.CLI;
@@ -13,6 +14,7 @@ public class ConsoleApplication
     private readonly IBankAccountFacade _bankAccountFacade;
     private readonly IOperationFacade _operationFacade;
     private readonly IAnalyticsService _analyticsService;
+    private readonly IImporter _importer;
     private bool _isRunning = true;
     
     private struct MenuAction
@@ -27,17 +29,17 @@ public class ConsoleApplication
         public const string GroupOperationsByCategory = "Group Operations by Category";
         public const string ExportToJson = "Export to JSON";
         public const string ExportToYaml = "Export to YAML";
-        public const string ImportFromJson = "Import from JSON";
-        public const string ImportFromYaml = "Import from YAML";
+        public const string ImportFromFile = "Import from file (JSON or YAML)";
         public const string Exit = "Exit";
     }
     
-    public ConsoleApplication(ICategoryFacade categoryFacade, IBankAccountFacade bankAccountFacade, IOperationFacade operationFacade, IAnalyticsService analyticsService)
+    public ConsoleApplication(ICategoryFacade categoryFacade, IBankAccountFacade bankAccountFacade, IOperationFacade operationFacade, IAnalyticsService analyticsService, IImporter importer)
     {
         _categoryFacade = categoryFacade;
         _bankAccountFacade = bankAccountFacade;
         _operationFacade = operationFacade;
         _analyticsService = analyticsService;
+        _importer = importer;
     }
 
     public void Run()
@@ -83,9 +85,8 @@ public class ConsoleApplication
             case MenuAction.ExportToYaml:
                 ExportYaml();
                 break;
-            case MenuAction.ImportFromJson:
-                break;
-            case MenuAction.ImportFromYaml:
+            case MenuAction.ImportFromFile:
+                ImportFromFile();
                 break;
             case MenuAction.Exit:
                 AnsiConsole.MarkupLine("[red]Goodbye![/]");
@@ -273,7 +274,7 @@ public class ConsoleApplication
                 })
                 .AddChoiceGroup("Import", new[]
                 {
-                    MenuAction.ImportFromJson, MenuAction.ImportFromYaml
+                    MenuAction.ImportFromFile
                 })
                 .AddChoices(new[]
                 {
@@ -415,6 +416,20 @@ public class ConsoleApplication
         {
             exporter.Export(path);
             AnsiConsole.MarkupLine("[green]Exported to YAML successfully![/]");
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
+        }
+    }
+
+    private void ImportFromFile()
+    {
+        var path = AnsiConsole.Ask<string>("Enter [green]path[/] for import:");
+
+        try
+        {
+            _importer.Import(path);
         }
         catch (Exception e)
         {

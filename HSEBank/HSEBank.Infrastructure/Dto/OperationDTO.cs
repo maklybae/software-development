@@ -1,8 +1,11 @@
+using HSEBank.Entities.Core;
+
 namespace HSEBank.Infrastructure.Dto;
 
 public struct OperationDto
 {
     public Guid Id { get; set; }
+    public OperationType Type { get; set; }
     public decimal Amount { get; set; }
     public DateTime Date { get; set; }
     public string? Description { get; set; }
