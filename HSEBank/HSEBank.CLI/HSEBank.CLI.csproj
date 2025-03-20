@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\HSEBank.Entities\HSEBank.Entities.csproj" />
+      <ProjectReference Include="..\HSEBank.Infrastructure\HSEBank.Infrastructure.csproj" />
+      <ProjectReference Include="..\HSEBank.UseCases\HSEBank.UseCases.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.0-preview.2.25163.2" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0-preview.2.25163.2" />
+      <PackageReference Include="Spectre.Console" Version="0.49.2-preview.0.76" />
+    </ItemGroup>
+
+</Project>
