@@ -390,7 +390,35 @@ public class ConsoleApplication
         }
     }
 
-    private void ExportJson() {}
-    
-    private void ExportYaml() {}
+    private void ExportJson()
+    {
+        var path = AnsiConsole.Ask<string>("Enter [green]path[/] to save JSON:");
+        var exporter = CompositionRoot.JsonExporter;
+        
+        try
+        {
+            exporter.Export(path);
+            AnsiConsole.MarkupLine("[green]Exported to JSON successfully![/]");
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
+        }
+    }
+
+    private void ExportYaml()
+    {
+        var path = AnsiConsole.Ask<string>("Enter [green]path[/] to save YAML:");
+        var exporter = CompositionRoot.YamlExporter;
+        
+        try
+        {
+            exporter.Export(path);
+            AnsiConsole.MarkupLine("[green]Exported to YAML successfully![/]");
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
+        }
+    }
 }
