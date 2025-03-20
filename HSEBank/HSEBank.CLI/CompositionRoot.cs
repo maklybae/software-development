@@ -2,6 +2,7 @@ using HSEBank.Infrastructure.Export;
 using HSEBank.Infrastructure.Repositories.Cached;
 using HSEBank.Infrastructure.Repositories.InMemory;
 using HSEBank.UseCases.Analytics;
+using HSEBank.UseCases.Commands;
 using HSEBank.UseCases.DataSources;
 using HSEBank.UseCases.Export;
 using HSEBank.UseCases.Facades;
@@ -51,8 +52,11 @@ public static class CompositionRoot
         services.AddSingleton<ICoreEntitiesAggregator, CoreEntitiesAggregator>();
         
         services.AddTransient<JsonExporter>();
-
         services.AddTransient<YamlExporter>();
+
+        services.AddTransient<CreateBankAccountCommand>();
+        services.AddTransient<CreateCategoryCommand>();
+        services.AddTransient<CreateOperationCommand>();
         
         return services.BuildServiceProvider();
     }
@@ -68,4 +72,10 @@ public static class CompositionRoot
     public static JsonExporter JsonExporter => Services.GetRequiredService<JsonExporter>();
     
     public static YamlExporter YamlExporter => Services.GetRequiredService<YamlExporter>();
+    
+    public static CreateBankAccountCommand CreateBankAccountCommand => Services.GetRequiredService<CreateBankAccountCommand>();
+    
+    public static CreateCategoryCommand CreateCategoryCommand => Services.GetRequiredService<CreateCategoryCommand>();
+    
+    public static CreateOperationCommand CreateOperationCommand => Services.GetRequiredService<CreateOperationCommand>();
 }
