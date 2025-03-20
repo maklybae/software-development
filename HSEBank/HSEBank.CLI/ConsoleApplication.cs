@@ -72,12 +72,16 @@ public class ConsoleApplication
                 ShowCategories();
                 break;
             case MenuAction.DifferenceForAccount:
+                DifferenceForAccount();
                 break;
             case MenuAction.GroupOperationsByCategory:
+                GroupOperationsByCategory();
                 break;
             case MenuAction.ExportToJson:
+                ExportJson();
                 break;
             case MenuAction.ExportToYaml:
+                ExportYaml();
                 break;
             case MenuAction.ImportFromJson:
                 break;
@@ -104,13 +108,13 @@ public class ConsoleApplication
         }
         catch (Exception e)
         {
-            AnsiConsole.WriteException(e);
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
             return;
         }
         
         foreach (var bankAccount in accounts)
         {
-            table.AddRow(bankAccount.Id.ToString(), bankAccount.Name.ToString(), bankAccount.Balance.ToString(CultureInfo.InvariantCulture));
+            table.AddRow(bankAccount.Id.ToString(), bankAccount.Name, bankAccount.Balance.ToString(CultureInfo.InvariantCulture));
         }
         AnsiConsole.Write(table);
     }
@@ -133,7 +137,7 @@ public class ConsoleApplication
         }
         catch (Exception e)
         {
-            AnsiConsole.WriteException(e);
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
             return;
         }
         
@@ -166,7 +170,7 @@ public class ConsoleApplication
         }
         catch (Exception e)
         {
-            AnsiConsole.WriteException(e);
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
             return;
         }
         
@@ -197,7 +201,7 @@ public class ConsoleApplication
         }
         catch (Exception e)
         {
-            AnsiConsole.WriteException(e);
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
         }
     }
     
@@ -222,7 +226,7 @@ public class ConsoleApplication
         }
         catch (Exception e)
         {
-            AnsiConsole.WriteException(e);
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
         }
     }
     
@@ -243,7 +247,7 @@ public class ConsoleApplication
         }
         catch (Exception e)
         {
-            AnsiConsole.WriteException(e);
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
         }
     }
 
@@ -335,5 +339,58 @@ public class ConsoleApplication
         
         return AnsiConsole.Ask<Guid?>("Enter [green]categoryId[/]:");
     }
+
+    private void DifferenceForAccount()
+    {
+        var accountId = AnsiConsole.Ask<Guid>("Enter [green]accountId[/]:");
+        var startDate = AnsiConsole.Ask<DateTime>("Enter [green]startDate[/]:");
+        var endDate = AnsiConsole.Ask<DateTime>("Enter [green]endDate[/]:");
+        
+        try
+        {
+            var difference = _analyticsService.GetDifferenceByAccountId(accountId, startDate, endDate);
+            AnsiConsole.MarkupLine($"Difference for account {accountId} between {startDate} and {endDate} is [green]{difference}[/]");
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
+        }
+    }
+
+    private void GroupOperationsByCategory()
+    {
+        var accountId = AnsiConsole.Ask<Guid>("Enter [green]accountId[/]:");
+        var startDate = AnsiConsole.Ask<DateTime>("Enter [green]startDate[/]:");
+        var endDate = AnsiConsole.Ask<DateTime>("Enter [green]endDate[/]:");
+
+        Dictionary<Category, decimal> res;
+        try 
+        {
+            res = _analyticsService.GroupOperationsByCategory(accountId, startDate, endDate);
+        }
+        catch (Exception e)
+        {
+            AnsiConsole.WriteException(e, ExceptionFormats.NoStackTrace);
+            return;
+        }
+        
+        var table = new Table();
+        table.AddColumn("Category Id");
+        table.AddColumn("Category Name");
+        table.AddColumn("Category Type");
+        table.AddColumn("Total");
+        
+        foreach (var (category, total) in res)
+        {
+            table.AddRow(
+                new Text(category.Id.ToString()),
+                new Text(category.Name),
+                category.Type == OperationType.Income ? new Markup("[green]Income[/]") : new Markup("[red]Expense[/]"),
+                new Text(total.ToString(CultureInfo.InvariantCulture)));
+        }
+    }
+
+    private void ExportJson() {}
     
+    private void ExportYaml() {}
 }
