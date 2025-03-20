@@ -5,7 +5,7 @@ using HSEBank.UseCases.Repository;
 
 namespace HSEBank.UseCases.Facades;
 
-public class CategoryFacade : ICategoryFacade, ICategoriesGetter
+public class CategoryFacade : ICategoryFacade
 {
     private readonly ICategoriesRepository _categoriesRepository;
     private readonly ICoreEntitiesCreator _builder;

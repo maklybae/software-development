@@ -5,7 +5,7 @@ using HSEBank.UseCases.Repository;
 
 namespace HSEBank.UseCases.Facades;
 
-public class BankAccountFacade : IBankAccountFacade, IBankAccountsGetter
+public class BankAccountFacade : IBankAccountFacade
 {
     private readonly IAccountsRepository _accountsRepository;
     private readonly ICoreEntitiesCreator _factory; 
@@ -35,11 +35,6 @@ public class BankAccountFacade : IBankAccountFacade, IBankAccountsGetter
     }
 
     public IEnumerable<BankAccount> GetAll()
-    {
-        return _accountsRepository.GetAll();
-    }
-    
-    public IEnumerable<BankAccount> GetAccounts()
     {
         return _accountsRepository.GetAll();
     }
