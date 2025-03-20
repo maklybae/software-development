@@ -20,14 +20,14 @@ public class CachedAccountsRepository(IAccountsRepository repository, IMemoryCac
     public BankAccount GetById(Guid id)
     {
         var cacheKey = $"{CacheKeyPrefix}{id}";
-        if (cache.TryGetValue(id, out BankAccount? account) && account != null)
+        if (cache.TryGetValue(cacheKey, out BankAccount? account) && account != null)
         {
             return account;
         }
 
         account = repository.GetById(id);
-        cache.Set(id, account, CacheDuration);
-
+        cache.Set(cacheKey, account, CacheDuration);
+        
         return account;
     }
 

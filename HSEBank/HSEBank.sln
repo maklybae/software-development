@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSEBank.Infrastructure", "H
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSEBank.CLI", "HSEBank.CLI\HSEBank.CLI.csproj", "{1F784F73-1444-4CF4-8403-C6A639BC4F13}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HSEBank.Tests", "HSEBank.Tests\HSEBank.Tests.csproj", "{10F6FC76-DFE9-4666-B799-BC240B3279D4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{1F784F73-1444-4CF4-8403-C6A639BC4F13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F784F73-1444-4CF4-8403-C6A639BC4F13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F784F73-1444-4CF4-8403-C6A639BC4F13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10F6FC76-DFE9-4666-B799-BC240B3279D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10F6FC76-DFE9-4666-B799-BC240B3279D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10F6FC76-DFE9-4666-B799-BC240B3279D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10F6FC76-DFE9-4666-B799-BC240B3279D4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

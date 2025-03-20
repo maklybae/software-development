@@ -21,13 +21,13 @@ public class CachedOperationsRepository(IOperationsRepository repository, IMemor
     public Operation GetById(Guid id)
     {
         var cacheKey = $"{CacheKeyPrefix}{id}";
-        if (cache.TryGetValue(id, out Operation? operation) && operation != null)
+        if (cache.TryGetValue(cacheKey, out Operation? operation) && operation != null)
         {
             return operation;
         }
         
         operation = repository.GetById(id);
-        cache.Set(id, operation, CacheDuration);
+        cache.Set(cacheKey, operation, CacheDuration);
         
         return operation;
     }

@@ -20,13 +20,13 @@ public class CachedCategoriesRepository(ICategoriesRepository repository, IMemor
     public Category GetById(Guid id)
     {
         var cacheKey = $"{CacheKeyPrefix}{id}";
-        if (cache.TryGetValue(id, out Category? category) && category != null)
+        if (cache.TryGetValue(cacheKey, out Category? category) && category != null)
         {
             return category;
         }
         
         category = repository.GetById(id);
-        cache.Set(id, category, CacheDuration);
+        cache.Set(cacheKey, category, CacheDuration);
         
         return category;
     }
